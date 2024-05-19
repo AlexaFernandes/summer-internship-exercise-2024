@@ -173,4 +173,37 @@ public class TeknonymyServiceTest {
     String expected = "great-great-great-grandfather of Kya";
     assertEquals(result, expected);
   }
+
+  @Test
+  public void PersonFullTreeOneGreatGrandChildTest() {
+    Person person = new Person(
+            "Aang",
+            'M',
+            new Person[]{
+                    new Person("Kya",
+                            'F',
+                            new Person[]{
+                                    new Person("Korra",'F', new Person[]{
+                                            new Person("Zhu Li",'F', null, LocalDateTime.of(1094, 1, 2, 0, 0))}, LocalDateTime.of(1074, 3, 2, 0, 0)),
+                                    new Person("Asami",'F',  new Person[]{
+                                            new Person("Varrick",'M', null, LocalDateTime.of(1094, 3, 2, 0, 0))}, LocalDateTime.of(1054, 3, 2, 0, 0))},
+                            LocalDateTime.of(1046, 1, 1, 0, 0)),
+                    new Person("Tenzin",
+                            'M',
+                            new Person[]{
+                                    new Person("Meelo",'M', new Person[]{
+                                            new Person("Mako",'M', null, LocalDateTime.of(1094, 10, 2, 0, 0))}, LocalDateTime.of(1073, 3, 2, 0, 0)),
+                                    new Person("Jinora",'F',  new Person[]{
+                                            new Person("Bolin",'M', null, LocalDateTime.of(1095, 3, 2, 0, 0))}, LocalDateTime.of(1052, 3, 2, 0, 0)),
+                                    new Person("Iky",'F',  new Person[]{
+                                            new Person("Zahir",'M', null, LocalDateTime.of(1096, 3, 2, 0, 0))}, LocalDateTime.of(1064, 3, 2, 0, 0))},
+                            LocalDateTime.of(1036, 1, 1, 0, 0)),
+                    new Person("Bumi",'M', new Person[]{
+                            new Person("Momo",'M', null, LocalDateTime.of(1096, 5, 2, 0, 0))}, LocalDateTime.of(1048, 1, 2, 0, 0))
+            },
+            LocalDateTime.of(1046, 1, 1, 0, 0));
+    String result = new TeknonymyService().getTeknonymy(person);
+    String expected = "great-grandfather of Zhu Li";
+    assertEquals(result, expected);
+  }
 }

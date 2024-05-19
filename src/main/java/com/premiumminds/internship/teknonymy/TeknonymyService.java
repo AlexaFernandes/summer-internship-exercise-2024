@@ -2,16 +2,16 @@ package com.premiumminds.internship.teknonymy;
 
 class TeknonymyService implements ITeknonymyService {
   Integer level = 0; //deepest level, where farthest descendants are
-  Integer curr_level=0; //current level that is being explored
 
   /**
    * Method to get the eldest descendant of a Person, if it exists
    *
    * @param person whose descendants we want to find out
    * @param eldest_desc is the eldest descendant found at the time
+   * @param curr_level is the current level that is being explored
    * @return Person which corresponds to the eldest descendant or null if it does not exist
    */
-  public Person getEldestDescendant(Person person, Person eldest_desc){
+  public Person getEldestDescendant(Person person, Person eldest_desc,Integer curr_level){
     //reached a leaf in the tree
     if( person.children()==null) {
       //if there are not any descendants
@@ -46,9 +46,8 @@ class TeknonymyService implements ITeknonymyService {
     else {
       for(Person sibling: person.children()){
         curr_level = curr_level+1;
-        eldest_desc = getEldestDescendant(sibling, eldest_desc);
+        eldest_desc = getEldestDescendant(sibling, eldest_desc, curr_level);
         curr_level = curr_level-1;
-
       }
     }
     return eldest_desc;
@@ -89,7 +88,7 @@ class TeknonymyService implements ITeknonymyService {
    */
   public String getTeknonymy(Person person) {
     String teknonymy;
-    Person eldest = this.getEldestDescendant(person, null);
+    Person eldest = this.getEldestDescendant(person, null,0);
     if (eldest==null){
       teknonymy="";
     }else {
