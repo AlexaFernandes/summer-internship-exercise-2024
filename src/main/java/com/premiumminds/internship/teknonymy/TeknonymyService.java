@@ -1,7 +1,7 @@
 package com.premiumminds.internship.teknonymy;
 
 class TeknonymyService implements ITeknonymyService {
-  Integer level = 0; //deepest level, where farthest descendants are
+  Integer level = 0; //deepest level, where farthest/deepest descendants are
 
   /**
    * Method to get the eldest descendant of a Person, if it exists
@@ -17,13 +17,13 @@ class TeknonymyService implements ITeknonymyService {
       //if there are not any descendants
       if (curr_level==0){return null;}
 
-      //this means this is the first descendant found,so save
+      //this means this is the first descendant found,so save:
       if(eldest_desc==null){
         eldest_desc=person;
         level=curr_level;
       }
 
-      //if a deeper descendant was found
+      //if a deeper descendant was found:
       else if(curr_level>level){
         level=curr_level; //update deepest level
         //being the deepest level, this is one of the possible descendants
@@ -31,7 +31,7 @@ class TeknonymyService implements ITeknonymyService {
         eldest_desc = person;
       }
 
-      //comparing descendants at the same depth
+      //comparing descendants at the same depth:
       else if(curr_level.equals(level)){
         //check who is the oldest
         if(eldest_desc.dateOfBirth().isAfter(person.dateOfBirth())){
@@ -45,9 +45,7 @@ class TeknonymyService implements ITeknonymyService {
     }
     else {
       for(Person sibling: person.children()){
-        curr_level = curr_level+1;
-        eldest_desc = getEldestDescendant(sibling, eldest_desc, curr_level);
-        curr_level = curr_level-1;
+        eldest_desc = getEldestDescendant(sibling, eldest_desc, curr_level+1);
       }
     }
     return eldest_desc;
@@ -60,6 +58,7 @@ class TeknonymyService implements ITeknonymyService {
    * @return String which is the parsed Teknonymy Name
    */
   private String parseString(Person person){
+    //in alternative StringBuilder can be used
     String teknonymy = "";
     if (level == 0) {
       return teknonymy;
@@ -69,8 +68,7 @@ class TeknonymyService implements ITeknonymyService {
       if(i == 1){
         if(person.sex().equals('M')){teknonymy=teknonymy+"father of ";}
         else{teknonymy=teknonymy+("mother of ");}
-      }
-      else if (i == 2) {
+      } else if (i == 2) {
         teknonymy = ("grand")+teknonymy;
       } else{
         teknonymy = ("great-")+teknonymy;
@@ -89,7 +87,7 @@ class TeknonymyService implements ITeknonymyService {
   public String getTeknonymy(Person person) {
     String teknonymy;
     Person eldest = this.getEldestDescendant(person, null,0);
-    if (eldest==null){
+    if(eldest==null){
       teknonymy="";
     }else {
       teknonymy = parseString(person) + eldest.name();
