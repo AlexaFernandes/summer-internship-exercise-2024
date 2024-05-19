@@ -11,7 +11,7 @@ class TeknonymyService implements ITeknonymyService {
    * @param curr_level is the current level that is being explored
    * @return Person which corresponds to the eldest descendant or null if it does not exist
    */
-  public Person getEldestDescendant(Person person, Person eldest_desc,Integer curr_level){
+  private Person getEldestDescendant(Person person, Person eldest_desc,Integer curr_level){
     //reached a leaf in the tree
     if( person.children()==null) {
       //if there are not any descendants
@@ -59,7 +59,7 @@ class TeknonymyService implements ITeknonymyService {
    * @param person whose Teknonymy we are looking for
    * @return String which is the parsed Teknonymy Name
    */
-  String parseString(Person person){
+  private String parseString(Person person){
     String teknonymy = "";
     if (level == 0) {
       return teknonymy;
